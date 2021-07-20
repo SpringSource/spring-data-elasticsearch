@@ -87,6 +87,7 @@ import org.springframework.util.Assert;
  * @author Gyula Attila Csorogi
  * @author Roman Puchkovskiy
  * @author Farid Faoudi
+ * @author Stojan Koncar
  * @deprecated as of 4.0
  */
 @Deprecated
@@ -270,6 +271,15 @@ public class ElasticsearchTemplate extends AbstractElasticsearchTemplate {
 		org.elasticsearch.action.update.UpdateResponse updateResponse = updateRequestBuilder.execute().actionGet();
 		UpdateResponse.Result result = UpdateResponse.Result.valueOf(updateResponse.getResult().name());
 		return new UpdateResponse(result);
+	}
+
+	@Override
+	public ByQueryResponse updateByQuery(UpdateQuery query, Class<?> clazz) {
+
+		Assert.notNull(query, "query must not be null");
+		Assert.notNull(clazz, "clazz must not be null");
+
+		return updateByQuery(query, getIndexCoordinatesFor(clazz));
 	}
 
 	@Override

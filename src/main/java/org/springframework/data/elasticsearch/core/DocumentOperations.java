@@ -33,6 +33,7 @@ import org.springframework.lang.Nullable;
  *
  * @author Peter-Josef Meisch
  * @author Farid Faoudi
+ * @author Stojan Koncar
  * @since 4.0
  */
 public interface DocumentOperations {
@@ -300,6 +301,16 @@ public interface DocumentOperations {
 	 * @return the update response
 	 */
 	UpdateResponse update(UpdateQuery updateQuery, IndexCoordinates index);
+
+	/**
+	 * Update document(s) by query
+	 *
+	 * @param updateQuery query defining the update, must not be {@literal null}
+	 * @param clazz The entity class, must be annotated with
+	 *          {@link org.springframework.data.elasticsearch.annotations.Document}
+	 * @return the update response
+	 */
+	ByQueryResponse updateByQuery(UpdateQuery updateQuery, Class<?> clazz);
 
 	/**
 	 * Update document(s) by query

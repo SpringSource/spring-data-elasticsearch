@@ -91,6 +91,7 @@ import org.springframework.util.Assert;
  * @author Gyula Attila Csorogi
  * @author Massimiliano Poggi
  * @author Farid Faoudi
+ * @author Stojan Koncar
  */
 public class ElasticsearchRestTemplate extends AbstractElasticsearchTemplate {
 
@@ -241,6 +242,15 @@ public class ElasticsearchRestTemplate extends AbstractElasticsearchTemplate {
 		UpdateResponse.Result result = UpdateResponse.Result
 				.valueOf(execute(client -> client.update(request, RequestOptions.DEFAULT)).getResult().name());
 		return new UpdateResponse(result);
+	}
+
+	@Override
+	public ByQueryResponse updateByQuery(UpdateQuery query, Class<?> clazz) {
+
+		Assert.notNull(query, "query must not be null");
+		Assert.notNull(clazz, "clazz must not be null");
+
+		return updateByQuery(query, getIndexCoordinatesFor(clazz));
 	}
 
 	@Override
